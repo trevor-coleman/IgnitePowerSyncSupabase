@@ -27,10 +27,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ navigation }) => {
   const [password, setPassword] = useState("password")
 
   const handleSignIn = async () => {
+    console.log(`Signing in: ${email} ${password}`)
     signIn(email, password)
   }
 
   const handleSignUp = async () => {
+    console.log(`Signing Up: ${email} ${password}`)
     signUp(email, password)
   }
 
@@ -43,6 +45,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={$container}>
       <KeyboardAvoidingView behavior={"padding"} style={$container}>
+        <Text preset={"subheading"}>PowerSync-Supabase</Text>
         <Text preset={"heading"}>Sign in or Create Account</Text>
         <TextField
           inputWrapperStyle={$inputWrapper}
