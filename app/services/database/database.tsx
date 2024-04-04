@@ -11,18 +11,18 @@ import { AppSchema } from "./schema" // Adjust the path as needed
 export class Database {
   // We expose the PowerSync and Supabase instances for easy access elsewhere in the app
   powersync: AbstractPowerSyncDatabase
-  supabase: SupabaseClient
+  supabase: SupabaseClient = supabase
 
   /**
    * Initialize the Database class with a new PowerSync instance
    */
   constructor() {
+    console.warn("Creating new Database instance")
     const factory = new RNQSPowerSyncDatabaseOpenFactory({
       schema: AppSchema,
       dbFilename: "sqlite.db",
     })
     this.powersync = factory.getInstance()
-    this.supabase = supabase
   }
 
   /**
