@@ -47,6 +47,7 @@ const FATAL_RESPONSE_CODES = [
 
 const uploadData: (database: AbstractPowerSyncDatabase) => Promise<void> = async (database) => {
   const transaction = await database.getNextCrudTransaction()
+  console.warn("Uploading data to Supabase", transaction)
 
   if (!transaction) {
     return
