@@ -1,6 +1,6 @@
 // app/services/database/use-auth.tsx
 import { User } from "@supabase/supabase-js"
-import { supabase } from "app/services/database/supabase"
+import { supabaseConnector } from "app/services/database/supabase"
 import React, {
   createContext,
   PropsWithChildren,
@@ -10,10 +10,10 @@ import React, {
   useState,
 } from "react"
 
-type Auth = {
-  signIn: (email: string, password: string) => void
-  signUp: (email: string, password: string) => void
-  signOut: () => void
+type TAuthContext = {
+  signIn: (email: string, password: string) => Promise<void>
+  signUp: (email: string, password: string) => Promise<void>
+  signOut: () => Promise<void>
   signedIn: boolean
   loading: boolean
   error: string
@@ -21,8 +21,9 @@ type Auth = {
 }
 
 // We initialize the context with null to ensure that it is not used outside of the provider
-const AuthContext = createContext<Auth | null>(null)
+const AuthContext = createContext<TAuthContext | null>(null)
 
+const { supabaseClient } = supabaseConnector
 /**
  * AuthProvider manages the authentication state and provides the necessary methods to sign in, sign up and sign out.
  */
@@ -42,7 +43,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<any>) => {
         const {
           data: { session, user },
           error,
-        } = await supabase.auth.signInWithPassword({ email, password })
+        } = await supabaseClient.auth.signInWithPassword({ email, password })
         if (error) {
           setSignedIn(false)
           setError(error.message)
@@ -56,7 +57,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<any>) => {
         setLoading(false)
       }
     },
-    [setSignedIn, setLoading, setError, setUser, supabase],
+    [setSignedIn, setLoading, setError, setUser, supabaseClient],
   )
 
   // Create a new account with provided email and password
@@ -66,12 +67,12 @@ export const AuthProvider = ({ children }: PropsWithChildren<any>) => {
       setError("")
       setUser(null)
       try {
-        const { data, error } = await supabase.auth.signUp({ email, password })
+        const { data, error } = await supabaseClient.auth.signUp({ email, password })
         if (error) {
           setSignedIn(false)
           setError(error.message)
         } else if (data.session) {
-          await supabase.auth.setSession(data.session)
+          await supabaseClient.auth.setSession(data.session)
           setSignedIn(true)
           setUser(data.user)
         }
@@ -83,18 +84,18 @@ export const AuthProvider = ({ children }: PropsWithChildren<any>) => {
         setLoading(false)
       }
     },
-    [setSignedIn, setLoading, setError, setUser, supabase],
+    [setSignedIn, setLoading, setError, setUser, supabaseClient],
   )
 
   // Sign out the current user
   const signOut = useCallback(async () => {
     setLoading(true)
-    await supabase.auth.signOut()
+    await supabaseClient.auth.signOut()
     setError("")
     setSignedIn(false)
     setLoading(false)
     setUser(null)
-  }, [setSignedIn, setLoading, setError, setUser, supabase])
+  }, [setSignedIn, setLoading, setError, setUser, supabaseClient])
 
   // Always memoize context values as they can cause unnecessary re-renders if they aren't stable!
   const value = useMemo(

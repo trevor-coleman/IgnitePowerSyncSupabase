@@ -27,13 +27,13 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ navigation }) => {
   const [password, setPassword] = useState("password")
 
   const handleSignIn = async () => {
-    console.log(`Signing in: ${email} ${password}`)
-    signIn(email, password)
+    await signIn(email, password)
+    console.log(`Signed in as ${email}`)
   }
 
   const handleSignUp = async () => {
-    console.log(`Signing Up: ${email} ${password}`)
-    signUp(email, password)
+    await signUp(email, password)
+    console.log(`Signed up as ${email}`)
   }
 
   useEffect(() => {
