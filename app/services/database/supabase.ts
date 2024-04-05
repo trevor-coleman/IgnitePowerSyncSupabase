@@ -22,6 +22,7 @@ export const supabase = createClient(Config.supabaseUrl, Config.supabaseAnonKey,
 
 // This function fetches the session token from Supabase, it should return null if the user is not signed in, and the session token if they are.
 async function fetchCredentials(): Promise<PowerSyncCredentials | null> {
+  log.error("Fetching Supabase credentials")
   const {
     data: { session },
     error,
@@ -32,14 +33,17 @@ async function fetchCredentials(): Promise<PowerSyncCredentials | null> {
   }
 
   if (!session) {
+    log.warn("No Supabase session found")
     return null
   }
 
-  return {
+  const result = {
     endpoint: Config.powersyncUrl,
     token: session.access_token ?? "",
     expiresAt: session.expires_at ? new Date(session.expires_at * 1000) : undefined,
   }
+  log.debug("Fetched Supabase credentials for ", session.user.email)
+  return result
 }
 
 // Response codes indicating unrecoverable errors.

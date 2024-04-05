@@ -13,7 +13,7 @@ import { highlight } from "app/services/logger"
 import * as storage from "../utils/storage"
 
 type Storage = typeof storage
-const navLog = highlight.extend("NAV: ")
+const navLog = highlight.extend("NAV >> ")
 
 /**
  * Reference to the root App Navigator.

@@ -43,6 +43,12 @@ export class Database {
     await this.powersync.connect(supabaseConnector)
     dbLog.info("Powersync connected.")
   }
+
+  async disconnect() {
+    dbLog.info("Disconnecting Powersync...")
+    await this.powersync.disconnectAndClear()
+    dbLog.info("Powersync disconnected.")
+  }
 }
 
 const database = new Database()
@@ -64,14 +70,25 @@ export function DatabaseProvider<T>({ children }: PropsWithChildren<T>) {
   const { user } = useAuth()
   useEffect(() => {
     if (user) {
-      providerLog.info("(useEffect) User signed in, initializing Database()")
+      providerLog.info(`(useEffect) ${user.email} signed in, initializing Database()`)
       database
         .init()
         .then(() => providerLog.debug("...initialized"))
         .catch(console.error)
     } else {
       providerLog.info("(useEffect) User signed out, disconnecting Powersync")
-      database.powersync.disconnectAndClear().catch(console.error)
+      if (database.powersync.connected) {
+        try {
+          ;(async () => {
+            await database.disconnect()
+            providerLog.info("...disconnected")
+          })()
+        } catch (error) {
+          providerLog.error(error)
+        }
+      } else {
+        providerLog.debug("   ...already disconnected, skipping disconnect")
+      }
     }
   }, [user, database])
   return (

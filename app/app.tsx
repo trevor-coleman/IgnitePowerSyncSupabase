@@ -12,17 +12,14 @@
  */
 import "react-native-polyfill-globals/auto"
 import "@azure/core-asynciterator-polyfill"
-import { logger } from "app/services/logger"
-
-const log = logger.extend("App")
 
 if (__DEV__) {
   // Load Reactotron configuration in development. We don't want to
   // include this in our production bundle, so we are using `if (__DEV__)`
   // to only execute this in development.
-  log.debug("Loading Reactotron")
   require("./devtools/ReactotronConfig.ts")
 }
+import "app/services/logger"
 import "./i18n"
 import "./utils/ignoreWarnings"
 import { DatabaseProvider } from "app/services/database/database"

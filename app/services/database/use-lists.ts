@@ -4,6 +4,9 @@ import { useCallback } from "react"
 import { useDatabase } from "app/services/database/database"
 import { LIST_TABLE, ListRecord, TODO_TABLE } from "app/services/database/schema"
 import { randomUUID } from "expo-crypto"
+import { logger } from "app/services/logger"
+
+const log = logger.extend("useLists")
 
 export type ListItemRecord = ListRecord & { total_tasks: number; completed_tasks: number }
 
@@ -23,7 +26,9 @@ export const useLists = () => {
 
   const createList = useCallback(
     async (name: string) => {
+      log.info("Creating list: ", name)
       if (!user) {
+        log.error("Can't add list -- user is undefined")
         throw new Error("Can't add list -- user is undefined")
       }
       return powersync.execute(
@@ -39,7 +44,8 @@ export const useLists = () => {
 
   const deleteList = useCallback(
     async (id: string) => {
-      console.log("Deleting list", id)
+      console.log(lists.length)
+      log.info(`Deleting list ${id}`)
       return powersync.execute(
         `DELETE
                              FROM ${LIST_TABLE}
@@ -47,7 +53,7 @@ export const useLists = () => {
         [id],
       )
     },
-    [powersync],
+    [powersync, lists],
   )
 
   return { lists, createList, deleteList }

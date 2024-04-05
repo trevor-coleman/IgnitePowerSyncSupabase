@@ -3,7 +3,7 @@ import { useLists } from "app/services/database/use-lists"
 import { colors, spacing } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { TextStyle, View, ViewStyle } from "react-native"
+import { Keyboard, TextStyle, View, ViewStyle } from "react-native"
 
 /**
  * Display a form to add a new list
@@ -16,6 +16,7 @@ export const AddList = observer(function AddList() {
 
   const handleAddList = React.useCallback(async () => {
     if (!newListName) {
+      Keyboard.dismiss()
       return
     }
     try {
@@ -24,11 +25,12 @@ export const AddList = observer(function AddList() {
     } catch (e: any) {
       setError(`Failed to create list: ${e?.message ?? "unknown error"}`)
     }
+    Keyboard.dismiss()
   }, [createList, newListName])
 
   return (
     <View style={$container}>
-      <Text preset={"subheading"}>Add a Todo</Text>
+      <Text preset={"subheading"}>Add a List</Text>
       <View style={$form}>
         <TextField
           placeholder="Enter a list name"
@@ -36,6 +38,7 @@ export const AddList = observer(function AddList() {
           inputWrapperStyle={$textInput}
           onChangeText={setNewListName}
           value={newListName}
+          onSubmitEditing={handleAddList}
         />
         <Button text="Add List" style={$button} onPress={handleAddList} />
       </View>

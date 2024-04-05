@@ -1,5 +1,4 @@
 import { Button } from "app/components/Button"
-import { useDatabase } from "app/services/database/database"
 import { useAuth } from "app/services/database/use-auth"
 import * as React from "react"
 import { StyleProp, View, ViewStyle } from "react-native"
@@ -24,17 +23,9 @@ export const SignOutButton = observer(function SignOutButton(props: SignOutButto
   const $styles = [$container, style]
 
   const { signOut } = useAuth()
-  const { powersync } = useDatabase()
 
   const handleSignOut = async () => {
     log.info("Signing out...")
-    try {
-      log.debug("Disconnect and Clear...")
-      await powersync.disconnectAndClear()
-      log.debug("Disconnected and Cleared.")
-    } catch (error) {
-      log.error("Error disconnecting and clearing", error)
-    }
     await signOut()
     log.info("Signed out.")
   }
