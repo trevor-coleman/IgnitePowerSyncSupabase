@@ -5,7 +5,9 @@ import { ListItemRecord, useLists } from "app/services/database/use-lists"
 import React, { useCallback } from "react"
 import { FlatList, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "../theme"
+import { logger } from "app/services/logger"
 
+const log = logger.extend("Lists")
 export function Lists() {
   const { lists, deleteList } = useLists()
   const navigation = useNavigation<NavigationProp<AppStackParamList>>()
@@ -15,7 +17,7 @@ export function Lists() {
       <ListItem
         textStyle={$listItemText}
         onPress={() => {
-          console.log("Pressed", item.name)
+          log.info("Pressed", item.name)
           navigation.navigate("SignedInNavigator", {
             screen: "TodoList",
             params: { listId: item.id },

@@ -6,6 +6,7 @@ import { useAuth } from "app/services/database/use-auth"
 import React, { useEffect, useState } from "react"
 import {
   ActivityIndicator,
+  Keyboard,
   KeyboardAvoidingView,
   Modal,
   TextStyle,
@@ -14,6 +15,9 @@ import {
 } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { colors, spacing } from "../theme"
+import { logger } from "app/services/logger"
+
+const log = logger.extend("AuthScreen")
 
 interface AuthScreenProps
   extends CompositeScreenProps<
@@ -27,13 +31,15 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ navigation }) => {
   const [password, setPassword] = useState("password")
 
   const handleSignIn = async () => {
+    Keyboard.dismiss()
     await signIn(email, password)
-    console.log(`Signed in as ${email}`)
+    log.info(`Signed in as ${email}`)
   }
 
   const handleSignUp = async () => {
+    Keyboard.dismiss()
     await signUp(email, password)
-    console.log(`Signed up as ${email}`)
+    log.info(`Signed up as ${email}`)
   }
 
   useEffect(() => {
@@ -56,6 +62,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ navigation }) => {
           onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize={"none"}
+          onSubmitEditing={Keyboard.dismiss}
         />
         <TextField
           containerStyle={$inputContainer}
@@ -64,6 +71,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ navigation }) => {
           value={password}
           onChangeText={setPassword}
           secureTextEntry
+          onSubmitEditing={Keyboard.dismiss}
         />
 
         <View style={$buttonContainer}>

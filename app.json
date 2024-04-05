@@ -54,6 +54,7 @@
       "bundler": "metro"
     },
     "plugins": [
+      "expo-secure-store",
       "expo-localization",
       [
         "expo-build-properties",

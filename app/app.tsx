@@ -10,17 +10,22 @@
  * The app navigation resides in ./app/navigators, so head over there
  * if you're interested in adding screens and navigators.
  */
+import "react-native-polyfill-globals/auto"
+import "@azure/core-asynciterator-polyfill"
+import { logger } from "app/services/logger"
+
+const log = logger.extend("App")
 
 if (__DEV__) {
   // Load Reactotron configuration in development. We don't want to
   // include this in our production bundle, so we are using `if (__DEV__)`
   // to only execute this in development.
+  log.debug("Loading Reactotron")
   require("./devtools/ReactotronConfig.ts")
 }
-import "react-native-polyfill-globals/auto"
-import "@azure/core-asynciterator-polyfill"
 import "./i18n"
 import "./utils/ignoreWarnings"
+import { DatabaseProvider } from "app/services/database/database"
 import { AuthProvider } from "app/services/database/use-auth"
 
 import { useFonts } from "expo-font"
@@ -105,17 +110,19 @@ function App(props: AppProps) {
 
   return (
     <AuthProvider>
-      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <ErrorBoundary catchErrors={Config.catchErrors}>
-          <GestureHandlerRootView style={$container}>
-            <AppNavigator
-              linking={linking}
-              initialState={initialNavigationState}
-              onStateChange={onNavigationStateChange}
-            />
-          </GestureHandlerRootView>
-        </ErrorBoundary>
-      </SafeAreaProvider>
+      <DatabaseProvider>
+        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+          <ErrorBoundary catchErrors={Config.catchErrors}>
+            <GestureHandlerRootView style={$container}>
+              <AppNavigator
+                linking={linking}
+                initialState={initialNavigationState}
+                onStateChange={onNavigationStateChange}
+              />
+            </GestureHandlerRootView>
+          </ErrorBoundary>
+        </SafeAreaProvider>
+      </DatabaseProvider>
     </AuthProvider>
   )
 }

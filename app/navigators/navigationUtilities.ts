@@ -9,26 +9,30 @@ import Config from "../config"
 import type { PersistNavigationConfig } from "../config/config.base"
 import { useIsMounted } from "../utils/useIsMounted"
 import type { AppStackParamList, NavigationProps } from "./AppNavigator"
-
+import { highlight } from "app/services/logger"
 import * as storage from "../utils/storage"
 
 type Storage = typeof storage
+const navLog = highlight.extend("NAV: ")
 
 /**
  * Reference to the root App Navigator.
  *
  * If needed, you can use this to access the navigation object outside of a
- * `NavigationContainer` context. However, it's recommended to use the `useNavigation` hook whenever possible.
+ * `NavigationContainer` context. However, it's recommended to use the `useNavigation` hook
+ * whenever possible.
  * @see [Navigating Without Navigation Prop]{@link https://reactnavigation.org/docs/navigating-without-navigation-prop/}
  *
  * The types on this reference will only let you reference top level navigators. If you have
- * nested navigators, you'll need to use the `useNavigation` with the stack navigator's ParamList type.
+ * nested navigators, you'll need to use the `useNavigation` with the stack navigator's ParamList
+ *   type.
  */
 export const navigationRef = createNavigationContainerRef<AppStackParamList>()
 
 /**
  * Gets the current screen from any navigation state.
- * @param {NavigationState | PartialState<NavigationState>} state - The navigation state to traverse.
+ * @param {NavigationState | PartialState<NavigationState>} state - The navigation state to
+ *   traverse.
  * @returns {string} - The name of the current screen.
  */
 export function getActiveRouteName(state: NavigationState | PartialState<NavigationState>): string {
@@ -45,7 +49,8 @@ export function getActiveRouteName(state: NavigationState | PartialState<Navigat
  * Hook that handles Android back button presses and forwards those on to
  * the navigation or allows exiting the app.
  * @see [BackHandler]{@link https://reactnative.dev/docs/backhandler}
- * @param {(routeName: string) => boolean} canExit - Function that returns whether we can exit the app.
+ * @param {(routeName: string) => boolean} canExit - Function that returns whether we can exit the
+ *   app.
  * @returns {void}
  */
 export function useBackButtonHandler(canExit: (routeName: string) => boolean) {
@@ -97,7 +102,8 @@ export function useBackButtonHandler(canExit: (routeName: string) => boolean) {
 /**
  * This helper function will determine whether we should enable navigation persistence
  * based on a config setting and the __DEV__ environment (dev or prod).
- * @param {PersistNavigationConfig} persistNavigation - The config setting for navigation persistence.
+ * @param {PersistNavigationConfig} persistNavigation - The config setting for navigation
+ *   persistence.
  * @returns {boolean} - Whether to restore navigation state by default.
  */
 function navigationRestoredDefaultState(persistNavigation: PersistNavigationConfig) {
@@ -124,7 +130,6 @@ export function useNavigationPersistence(storage: Storage, persistenceKey: strin
   const [isRestored, setIsRestored] = useState(initNavState)
 
   const routeNameRef = useRef<keyof AppStackParamList | undefined>()
-
   const onNavigationStateChange = (state: NavigationState | undefined) => {
     const previousRouteName = routeNameRef.current
     if (state !== undefined) {
@@ -133,7 +138,7 @@ export function useNavigationPersistence(storage: Storage, persistenceKey: strin
       if (previousRouteName !== currentRouteName) {
         // track screens.
         if (__DEV__) {
-          console.log(currentRouteName)
+          navLog.info(currentRouteName)
         }
       }
 

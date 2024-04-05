@@ -1880,26 +1880,14 @@
     "@types/yargs" "^17.0.8"
     chalk "^4.0.0"
 
-"@journeyapps/powersync-react@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@journeyapps/powersync-react/-/powersync-react-1.0.6.tgz#fdb564ae6afc16917633744c006774713313bea8"
-  integrity sha512-QYP9QmENSiBH6Xq4yuo4FtgyQjA/mgMRZ+TrvNc+f9mBcHxekym4Q41qH+DALwehQ8tEJ9oeLRGSp1YEhqgFIw==
+"@journeyapps/powersync-react@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@journeyapps/powersync-react/-/powersync-react-1.1.0.tgz#1637a2512fe2413dfe2c837611f143a05940ceec"
+  integrity sha512-FrdCmaQI4zfKDFDSGrdhuGs7ASBcnJWJ7RWOqsZ+I3jOmT+Z96nGbJyNkdFvft3Flxqjkkll/OGKOfxBJKSrbA==
   dependencies:
-    "@journeyapps/powersync-sdk-common" "1.3.0"
+    "@journeyapps/powersync-sdk-common" "1.4.0"
 
-"@journeyapps/powersync-sdk-common@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@journeyapps/powersync-sdk-common/-/powersync-sdk-common-1.3.0.tgz#f6714dfac405439c0eb4ba54be8144f938bef46a"
-  integrity sha512-/uPmc7P70N1Lhj9eiJA0F7KqK7YLs65paR1D65SE3W9zusyCcLmgejqyC/0gyfFg+Ks7RTzFUWw2ZPbQK5mIVw==
-  dependencies:
-    async-mutex "^0.4.0"
-    can-ndjson-stream "^1.0.2"
-    event-iterator "^2.0.0"
-    js-logger "^1.6.1"
-    lodash "^4.17.21"
-    uuid "^3.0.0"
-
-"@journeyapps/powersync-sdk-common@^1.4.0":
+"@journeyapps/powersync-sdk-common@1.4.0", "@journeyapps/powersync-sdk-common@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@journeyapps/powersync-sdk-common/-/powersync-sdk-common-1.4.0.tgz#839db4d858e09c74dccdc98b3d0af744db6c0217"
   integrity sha512-K1NQCy0lo2GMmCesKwJmwXO+V8NRilJEWuGkqa8iqR9i/KYLe6OqllGUp3DCBsFkkoennO3dMUPpP+luwhHuSA==
@@ -1911,13 +1899,13 @@
     lodash "^4.17.21"
     uuid "^3.0.0"
 
-"@journeyapps/powersync-sdk-react-native@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@journeyapps/powersync-sdk-react-native/-/powersync-sdk-react-native-1.3.0.tgz#a178a4f4365b43a8c1aff98d190b2ec816e09c4d"
-  integrity sha512-/N8XN5GoAKAWMdIgREBk/bX/gF1u1lq1+mfaLr5BQMwp8191JGVD6wMAHCksMjYhg6brJmUn8x/PY8PL7VaoUQ==
+"@journeyapps/powersync-sdk-react-native@^1.3.0":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@journeyapps/powersync-sdk-react-native/-/powersync-sdk-react-native-1.3.3.tgz#87dd4f41fbf2267d60b35d901e54c5de4efc5102"
+  integrity sha512-Sjz7duTU2Fi+cyf00weC+MzgY6TERx68f3LwuhWBrb43Ss0YDWP5GQaaGX04L27grSR9TjNtB0yg05bjSc6A/Q==
   dependencies:
-    "@journeyapps/powersync-react" "1.0.6"
-    "@journeyapps/powersync-sdk-common" "1.3.0"
+    "@journeyapps/powersync-react" "1.1.0"
+    "@journeyapps/powersync-sdk-common" "1.4.0"
     async-lock "^1.4.0"
 
 "@journeyapps/react-native-quick-sqlite@^1.1.2":
@@ -4838,6 +4826,11 @@ expo-modules-core@1.11.12:
   integrity sha512-/e8g4kis0pFLer7C0PLyx98AfmztIM6gU9jLkYnB1pU9JAfQf904XEi3bmszO7uoteBQwSL6FLp1m3TePKhDaA==
   dependencies:
     invariant "^2.2.4"
+
+expo-secure-store@~12.8.1:
+  version "12.8.1"
+  resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-12.8.1.tgz#369a570702fa1dc0c49ea41a5ab18aca2a986d38"
+  integrity sha512-Ju3jmkHby4w7rIzdYAt9kQyQ7HhHJ0qRaiQOInknhOLIltftHjEgF4I1UmzKc7P5RCfGNmVbEH729Pncp/sHXQ==
 
 expo-splash-screen@~0.26.3:
   version "0.26.4"
@@ -7983,6 +7976,11 @@ react-native-get-random-values@~1.8.0:
   integrity sha512-H/zghhun0T+UIJLmig3+ZuBCvF66rdbiWUfRSNS6kv5oDSpa1ZiVyvRWtuPesQpT8dXj+Bv7WJRQOUP+5TB1sA==
   dependencies:
     fast-base64-decode "^1.0.0"
+
+react-native-logs@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-logs/-/react-native-logs-5.1.0.tgz#03e73c0789254d13bd1c6dac4874f0ecfee53b37"
+  integrity sha512-bnTDoML/xH2V16ica6q4OJN7LIT0yz9mgeiAR1l3lvMTV6qfPGpiyy1G39mNfVorGIh3KbMLd6Av8dE2Pc33yA==
 
 react-native-polyfill-globals@^3.1.0:
   version "3.1.0"

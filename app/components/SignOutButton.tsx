@@ -5,6 +5,9 @@ import * as React from "react"
 import { StyleProp, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { spacing } from "app/theme"
+import { logger } from "app/services/logger"
+
+const log = logger.extend("SignOutButton")
 
 export interface SignOutButtonProps {
   /**
@@ -24,14 +27,16 @@ export const SignOutButton = observer(function SignOutButton(props: SignOutButto
   const { powersync } = useDatabase()
 
   const handleSignOut = async () => {
+    log.info("Signing out...")
     try {
+      log.debug("Disconnect and Clear...")
       await powersync.disconnectAndClear()
-    } catch (e) {
-      console.log(e)
-    } finally {
-      console.log("Signed out")
-      signOut()
+      log.debug("Disconnected and Cleared.")
+    } catch (error) {
+      log.error("Error disconnecting and clearing", error)
     }
+    await signOut()
+    log.info("Signed out.")
   }
 
   return (

@@ -9,6 +9,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { createClient } from "@supabase/supabase-js"
 import Config from "app/config"
 
+import { logger } from "app/services/logger"
+
+const log = logger.extend("supabase")
+
 export const supabase = createClient(Config.supabaseUrl, Config.supabaseAnonKey, {
   auth: {
     persistSession: true,
@@ -47,7 +51,7 @@ const FATAL_RESPONSE_CODES = [
 
 const uploadData: (database: AbstractPowerSyncDatabase) => Promise<void> = async (database) => {
   const transaction = await database.getNextCrudTransaction()
-  console.warn("Uploading data to Supabase", transaction)
+  log.warn("Uploading data to Supabase", transaction)
 
   if (!transaction) {
     return
@@ -82,7 +86,7 @@ const uploadData: (database: AbstractPowerSyncDatabase) => Promise<void> = async
 
     await transaction.complete()
   } catch (ex: any) {
-    console.debug(ex)
+    log.debug(ex)
     if (typeof ex.code === "string" && FATAL_RESPONSE_CODES.some((regex) => regex.test(ex.code))) {
       /**
        * Instead of blocking the queue with these errors,
@@ -92,7 +96,7 @@ const uploadData: (database: AbstractPowerSyncDatabase) => Promise<void> = async
        * If protecting against data loss is important, save the failing records
        * elsewhere instead of discarding, and/or notify the user.
        */
-      console.error(`Data upload error - discarding ${lastOp}`, ex)
+      log.error(`Data upload error - discarding ${lastOp}`, ex)
       await transaction.complete()
     } else {
       // Error may be retryable - e.g. network error or temporary server error.
